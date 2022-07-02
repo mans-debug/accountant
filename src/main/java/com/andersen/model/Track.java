@@ -14,14 +14,13 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tracks", schema = "accountant_schema")
+@Table(name = "tracks", schema = "public")
 public class Track {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     //time when track was sent
-    @Immutable
     private LocalDateTime date;
     //time spend on a task
     //better make it long, imho
@@ -29,6 +28,5 @@ public class Track {
     private String text;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @Immutable
     private User user;
 }
