@@ -8,8 +8,6 @@ import lombok.Data;
 public class TrackDto {
     private Long id;
     private Long userId;
-
-    private Long telegram_id;
     private String date;
     private double timeSpent;
     private String text;
