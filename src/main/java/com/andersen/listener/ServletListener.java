@@ -2,9 +2,9 @@ package com.andersen.listener;
 
 
 import com.andersen.dto.DtoMapper;
-import com.andersen.repository.TrackRepository;
-import com.andersen.repository.TrackRepositoryImpl;
-import com.andersen.repository.UserRepository;
+import com.andersen.repository.*;
+import com.andersen.service.ReportService;
+import com.andersen.service.ReportServiceImpl;
 import com.andersen.service.TrackService;
 import com.andersen.service.TrackServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,13 +34,17 @@ public class ServletListener implements ServletContextListener {
         ObjectMapper objectMapper = new ObjectMapper();
 
         TrackRepository trackRepository = new TrackRepositoryImpl(sessionFactory);
-        UserRepository userRepository = null; //todo
+        UserRepository userRepository = new UserRepositoryImpl(sessionFactory);
+        ReportRepository reportRepository = new ReportRepositoryImpl(sessionFactory, userRepository);
+
 
         TrackService trackService = new TrackServiceImpl(dtoMapper,
                 trackRepository,
                 userRepository);
+        ReportService reportService = new ReportServiceImpl(reportRepository);
 
         servletContextEvent.getServletContext().setAttribute("trackService", trackService);
+        servletContextEvent.getServletContext().setAttribute("reportService", reportService);
         servletContextEvent.getServletContext().setAttribute("objectMapper", objectMapper);
     }
 

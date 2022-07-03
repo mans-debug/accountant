@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tracks", schema = "public")
+@Table(name = "tracks")
 public class Track {
 
     @Id
@@ -26,8 +26,9 @@ public class Track {
     //better make it long, imho
     private double timeSpent;
     private String text;
+
+
     @ManyToOne
     @JoinColumn(name = "user_id")
-    
     private User user;
 }

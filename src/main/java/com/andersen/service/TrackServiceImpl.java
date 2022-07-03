@@ -6,9 +6,11 @@ import com.andersen.model.Track;
 import com.andersen.model.User;
 import com.andersen.repository.TrackRepository;
 import com.andersen.repository.UserRepository;
+import jakarta.ejb.NoSuchEntityException;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 //todo do we need to validate input data?
@@ -20,9 +22,13 @@ public class TrackServiceImpl implements TrackService {
     @Override
     public TrackDto create(TrackDto trackDto) {
         Track track = dtoMapper.trackDtoToTrack(trackDto);
-        User user = userRepository.getById(trackDto.getUserId());
-        track.setUser(user);
-        return dtoMapper.trackToTrackDto(trackRepository.save(track));
+        Optional<User> user = userRepository.findById(trackDto.getUserId());
+        if(user.isPresent()) {
+            track.setUser(user.get());
+            userRepository.updateLastModified(user.get().getTelegramId());
+            return dtoMapper.trackToTrackDto(trackRepository.save(track));
+        }
+        throw new NoSuchEntityException();
     }
 
     @Override
@@ -41,5 +47,10 @@ public class TrackServiceImpl implements TrackService {
                         userRepository.getById(userId)
                 )
         );
+    }
+
+    @Override
+    public void remove(Long trackId) {
+        trackRepository.deleteById(trackId);
     }
 }

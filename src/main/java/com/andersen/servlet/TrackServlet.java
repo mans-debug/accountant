@@ -57,6 +57,13 @@ public class TrackServlet extends HttpServlet {
         }
     }
 
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Long trackId = Long.parseLong(req.getParameter("trackId"));
+        trackService.remove(trackId);
+    }
+
     private Long getId(HttpServletRequest req, String parameterName) {
         String textId = null;
         if ((textId = req.getParameter(parameterName)) == null) {

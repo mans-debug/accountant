@@ -11,4 +11,6 @@ public interface TrackService {
     TrackDto update(TrackDto trackDto);
 
     List<TrackDto> getByUser(Long userId);
+
+    void remove(Long trackId);
 }
