@@ -14,7 +14,7 @@
         <property name="hibernate.connection.provider_class">com.zaxxer.hikari.hibernate.HikariConnectionProvider
         </property>
         <property name="hibernate.hbm2ddl.auto">create</property>
-        <mapping class="com.andersen.model.Team"/>
+        <mapping class="com.andersen.model.Group"/>
         <mapping class="com.andersen.model.Track"/>
         <mapping class="com.andersen.model.User"/>
     </session-factory>

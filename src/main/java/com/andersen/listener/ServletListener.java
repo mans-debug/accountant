@@ -47,9 +47,4 @@ public class ServletListener implements ServletContextListener {
         servletContextEvent.getServletContext().setAttribute("reportService", reportService);
         servletContextEvent.getServletContext().setAttribute("objectMapper", objectMapper);
     }
-
-    @Override
-    public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        sessionFactory.close();
-    }
 }

@@ -1,6 +1,7 @@
 package com.andersen.servlet;
 
 import com.andersen.dto.TrackDto;
+import com.andersen.dto.TrackToSent;
 import com.andersen.service.TrackService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletConfig;
@@ -13,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.Long.parseLong;
 
@@ -35,7 +37,7 @@ public class TrackServlet extends HttpServlet {
         }
         try (PrintWriter writer = resp.getWriter()) {
             List<TrackDto> responseObj = trackService.getByUser(id);
-            objectMapper.writeValue(writer, responseObj);
+            objectMapper.writeValue(writer, responseObj.stream().map(this::trackDtoToTrackToSentDto).collect(Collectors.toList()));
         }
     }
 
@@ -44,7 +46,7 @@ public class TrackServlet extends HttpServlet {
         try (PrintWriter writer = resp.getWriter()) {
             TrackDto newTrack = objectMapper.readValue(req.getReader(), TrackDto.class);
             TrackDto created = trackService.create(newTrack);
-            objectMapper.writeValue(writer, created);
+            objectMapper.writeValue(writer, trackDtoToTrackToSentDto(created));
         }
     }
 
@@ -53,7 +55,7 @@ public class TrackServlet extends HttpServlet {
         try (PrintWriter writer = resp.getWriter()) {
             TrackDto toUpdate = objectMapper.readValue(req.getReader(), TrackDto.class);
             TrackDto updated = trackService.update(toUpdate);
-            objectMapper.writeValue(writer, updated);
+            objectMapper.writeValue(writer, trackDtoToTrackToSentDto(updated));
         }
     }
 
@@ -71,5 +73,13 @@ public class TrackServlet extends HttpServlet {
         } else {
             return parseLong(textId);
         }
+    }
+
+    public TrackToSent trackDtoToTrackToSentDto(TrackDto trackDto){
+        return TrackToSent.builder()
+                .description(trackDto.getText())
+                .id(trackDto.getId())
+                .spentHours(trackDto.getTimeSpent())
+                .build();
     }
 }
