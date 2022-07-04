@@ -3,6 +3,8 @@ package com.andersen.servlet;
 import com.andersen.dto.TrackDto;
 import com.andersen.dto.TrackToSent;
 import com.andersen.service.TrackService;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -44,9 +46,13 @@ public class TrackServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try (PrintWriter writer = resp.getWriter()) {
-            TrackDto newTrack = objectMapper.readValue(req.getReader(), TrackDto.class);
-            TrackDto created = trackService.create(newTrack);
-            objectMapper.writeValue(writer, trackDtoToTrackToSentDto(created));
+            TrackToSent newTrack = objectMapper.readValue(req.getReader(), TrackToSent.class);
+            TrackToSent created = trackDtoToTrackToSentDto(trackService.create(newTrack));
+            objectMapper.writeValue(writer, created);
+        }catch (JsonParseException e){
+            e.printStackTrace();
+        } catch (JsonMappingException e){
+            e.printStackTrace();
         }
     }
 

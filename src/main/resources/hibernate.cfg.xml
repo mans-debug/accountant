@@ -13,7 +13,7 @@
         <property name="hibernate.hikari.maximumPoolSize">20</property>
         <property name="hibernate.connection.provider_class">com.zaxxer.hikari.hibernate.HikariConnectionProvider
         </property>
-        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
         <mapping class="com.andersen.model.Group"/>
         <mapping class="com.andersen.model.Track"/>
         <mapping class="com.andersen.model.User"/>

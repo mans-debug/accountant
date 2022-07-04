@@ -2,6 +2,7 @@ package com.andersen.service;
 
 import com.andersen.dto.DtoMapper;
 import com.andersen.dto.TrackDto;
+import com.andersen.dto.TrackToSent;
 import com.andersen.model.Track;
 import com.andersen.model.User;
 import com.andersen.repository.TrackRepository;
@@ -20,8 +21,8 @@ public class TrackServiceImpl implements TrackService {
     private final UserRepository userRepository;
 
     @Override
-    public TrackDto create(TrackDto trackDto) {
-        Track track = dtoMapper.trackDtoToTrack(trackDto);
+    public TrackDto create(TrackToSent trackDto) {
+        Track track = dtoMapper.trackToSentToTrack(trackDto);
         Optional<User> user = userRepository.findById(trackDto.getUserId());
         if(user.isPresent()) {
             track.setUser(user.get());
