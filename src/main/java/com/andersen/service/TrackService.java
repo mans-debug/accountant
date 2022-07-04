@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface TrackService {
 
-    TrackDto create(TrackToSent trackDto);
+    TrackDto create(TrackDto trackDto);
 
     TrackDto update(TrackDto trackDto);
 

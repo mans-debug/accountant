@@ -46,9 +46,8 @@ public class TrackServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try (PrintWriter writer = resp.getWriter()) {
-            TrackToSent newTrack = objectMapper.readValue(req.getReader(), TrackToSent.class);
-            TrackToSent created = trackDtoToTrackToSentDto(trackService.create(newTrack));
-            objectMapper.writeValue(writer, created);
+            TrackDto newTrack = objectMapper.readValue(req.getReader(), TrackDto.class);
+            objectMapper.writeValue(writer, trackService.create(newTrack));
         }catch (JsonParseException e){
             e.printStackTrace();
         } catch (JsonMappingException e){
@@ -83,9 +82,9 @@ public class TrackServlet extends HttpServlet {
 
     public TrackToSent trackDtoToTrackToSentDto(TrackDto trackDto){
         return TrackToSent.builder()
-                .description(trackDto.getText())
+                .description(trackDto.getDescription())
                 .id(trackDto.getId())
-                .spentHours(trackDto.getTimeSpent())
+                .spentHours(trackDto.getSpentHours())
                 .build();
     }
 }

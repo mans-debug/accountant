@@ -10,6 +10,8 @@ import java.util.List;
 public interface DtoMapper {
     TrackDto trackToTrackDto(Track track);
 
+    @Mapping(source = "description", target = "text")
+    @Mapping(source = "spentHours", target = "timeSpent")
     Track trackDtoToTrack(TrackDto trackDto);
 
     @Mapping(source = "description", target = "text")

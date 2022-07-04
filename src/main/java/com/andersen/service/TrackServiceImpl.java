@@ -21,8 +21,8 @@ public class TrackServiceImpl implements TrackService {
     private final UserRepository userRepository;
 
     @Override
-    public TrackDto create(TrackToSent trackDto) {
-        Track track = dtoMapper.trackToSentToTrack(trackDto);
+    public TrackDto create(TrackDto trackDto) {
+        Track track = trackDtoToTrack(trackDto);
         Optional<User> user = userRepository.findById(trackDto.getUserId());
         if(user.isPresent()) {
             track.setUser(user.get());
@@ -53,5 +53,19 @@ public class TrackServiceImpl implements TrackService {
     @Override
     public void remove(Long trackId) {
         trackRepository.deleteById(trackId);
+    }
+
+    public Track trackDtoToTrack(TrackDto trackDto) {
+        if ( trackDto == null ) {
+            return null;
+        }
+
+        Track.TrackBuilder track = Track.builder();
+
+        track.text( trackDto.getDescription() );
+        track.timeSpent( trackDto.getSpentHours() );
+        track.id( trackDto.getId() );
+
+        return track.build();
     }
 }
