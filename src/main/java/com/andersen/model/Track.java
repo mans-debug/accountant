@@ -8,6 +8,7 @@ import org.hibernate.annotations.Immutable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Entity
@@ -21,7 +22,7 @@ public class Track {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     //time when track was sent
-    private LocalDateTime date;
+    private Date date;
     //time spend on a task
     //better make it long, imho
     private double timeSpent;

@@ -3,6 +3,7 @@ package com.andersen.repository;
 import com.andersen.exception.FailedUpdate;
 import com.andersen.model.Track;
 import com.andersen.model.User;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j;
@@ -11,6 +12,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.sql.Template;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,6 +81,9 @@ public class TrackRepositoryImpl implements TrackRepository {
     public Track save(Track entity) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
+            if(entity.getDate() == null){
+                entity.setDate(new Date());
+            }
             session.saveOrUpdate(entity);
             transaction.commit();
             return entity;
