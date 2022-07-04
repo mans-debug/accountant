@@ -10,6 +10,7 @@ import com.andersen.repository.UserRepository;
 import jakarta.ejb.NoSuchEntityException;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +44,7 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public List<TrackDto> getByUser(Long userId) {
-        return dtoMapper.trackListToTrackDtoList(
+        return trackListToTrackDtoList(
                 trackRepository.findByUser(
                         userRepository.getById(userId)
                 )
@@ -67,5 +68,22 @@ public class TrackServiceImpl implements TrackService {
         track.id( trackDto.getId() );
 
         return track.build();
+    }
+
+    public TrackDto trackToTrackDto(Track track) {
+        TrackDto.TrackDtoBuilder trackDto = TrackDto.builder();
+
+        trackDto.description( track.getText() );
+        trackDto.spentHours( track.getTimeSpent() );
+        trackDto.id( track.getId() );
+
+        return trackDto.build();
+    }
+    public List<TrackDto> trackListToTrackDtoList(List<Track> tracks) {
+        List<TrackDto> list = new ArrayList<TrackDto>( tracks.size() );
+        for ( Track track : tracks ) {
+            list.add( trackToTrackDto( track ) );
+        }
+        return list;
     }
 }

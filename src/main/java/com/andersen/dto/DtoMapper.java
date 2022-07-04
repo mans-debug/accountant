@@ -8,8 +8,6 @@ import java.util.List;
 
 @Mapper
 public interface DtoMapper {
-    TrackDto trackToTrackDto(Track track);
-
     @Mapping(source = "description", target = "text")
     @Mapping(source = "spentHours", target = "timeSpent")
     Track trackDtoToTrack(TrackDto trackDto);
@@ -17,6 +15,10 @@ public interface DtoMapper {
     @Mapping(source = "description", target = "text")
     @Mapping(source = "spentHours", target = "timeSpent")
     Track trackToSentToTrack(TrackToSent track);
+
+    @Mapping(target = "description", source = "text")
+    @Mapping(target = "spentHours", source = "timeSpent")
+    TrackDto trackToTrackDto(Track track);
 
     List<TrackDto> trackListToTrackDtoList(List<Track> tracks);
 }
