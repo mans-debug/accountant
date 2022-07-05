@@ -1,5 +1,6 @@
 package com.andersen.servlet;
 
+import com.andersen.dto.TeamReport;
 import com.andersen.service.ReportService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletConfig;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 @WebServlet("/reports")
 public class ReportServlet extends HttpServlet {
@@ -25,6 +27,7 @@ public class ReportServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try (PrintWriter writer = resp.getWriter()) {
+            List<TeamReport> teamReportList = reportService.getReports();
             objectMapper.writeValue(writer, reportService.getReports());
         }
     }

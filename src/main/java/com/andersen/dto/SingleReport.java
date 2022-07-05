@@ -12,6 +12,6 @@ public class SingleReport {
 
     private String firstName;
     private String lastName;
-    List<String> tracks;
+    List<TrackMinInfo> tasks;
 
 }

@@ -1,9 +1,6 @@
 package com.andersen.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -28,8 +25,10 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "group_id")
+    @EqualsAndHashCode.Exclude
     private Group group;
 
     @OneToMany(mappedBy = "user")
+    @EqualsAndHashCode.Exclude
     List<Track> tracks;
 }

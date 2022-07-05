@@ -4,7 +4,7 @@
 <hibernate-configuration>
     <session-factory>
         <property name="connection.username">postgres</property> <!--change-->
-        <property name="connection.password">qwerty12345</property> <!--change-->
+        <property name="connection.password">1234</property> <!--change-->
         <property name="connection.url">jdbc:postgresql://localhost:5432/aston</property> <!--change-->
         <property name="connection.driver_class">org.postgresql.Driver</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgresPlusDialect</property>

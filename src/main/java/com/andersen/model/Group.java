@@ -1,9 +1,6 @@
 package com.andersen.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,9 +22,11 @@ public class Group {
     private String color;
 
     @OneToOne(cascade = CascadeType.PERSIST)
+    @EqualsAndHashCode.Exclude
     private User teamLead;
 
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "group")
+    @EqualsAndHashCode.Exclude
     private List<User> users;
 
 

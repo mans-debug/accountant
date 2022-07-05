@@ -1,9 +1,6 @@
 package com.andersen.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Immutable;
 
 import javax.persistence.*;
@@ -31,5 +28,6 @@ public class Track {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @EqualsAndHashCode.Exclude
     private User user;
 }
