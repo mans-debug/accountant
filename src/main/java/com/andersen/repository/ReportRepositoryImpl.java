@@ -4,13 +4,15 @@ import com.andersen.dto.SingleReport;
 import com.andersen.dto.TeamReport;
 import com.andersen.dto.TrackMinInfo;
 import com.andersen.model.Group;
-import com.andersen.model.Track;
 import com.andersen.model.User;
+import jakarta.ejb.Local;
 import lombok.AllArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,12 +49,19 @@ public class ReportRepositoryImpl implements ReportRepository {
     private SingleReport userToSingleReport(User y) {
         return new SingleReport(y.getFirstName(),
                 y.getLastName(),
-                getTrackMinInfo(y));
+                getTrackMinInfoAndFilterByDate(y));
     }
 
-    private List<TrackMinInfo> getTrackMinInfo(User y) {
+    private List<TrackMinInfo> getTrackMinInfoAndFilterByDate(User y) {
+        LocalDate localDate;
+        //дата начала дня
+        Date date = Date.from(LocalDate.now().atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
+
         return y.getTracks()
                 .stream()
+                .filter(x -> x.getDate().after(date))
                 .map(x -> new TrackMinInfo(x.getText(), x.getTimeSpent()))
                 .collect(Collectors.toList());
     }
