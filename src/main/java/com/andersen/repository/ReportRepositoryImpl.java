@@ -25,7 +25,7 @@ public class ReportRepositoryImpl implements ReportRepository {
     @Override
     public List<TeamReport> getReports() {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("select u from User u", User.class)
+            return session.createQuery("select u from User u WHERE u.group != null and u.tracks is not empty", User.class)
                     .getResultList()
                     .stream()
                     .collect(Collectors.groupingBy(User::getGroup)) //группируем пользователей по группе
