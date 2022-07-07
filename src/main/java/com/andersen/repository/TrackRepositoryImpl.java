@@ -97,7 +97,7 @@ public class TrackRepositoryImpl implements TrackRepository {
     public List<Track> findByUser(User user) {
         try (Session session = sessionFactory.openSession()) {
             return session
-                    .createQuery("select t from Track t where t.user = :user", Track.class)
+                    .createQuery("select t from Track t where t.user = :user and day(current_timestamp) - day(t.date) < 1", Track.class)
                     .setParameter("user", user)
                     .getResultList();
         }
